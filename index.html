@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Recipe: Global Culinary Guide</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+
+    <header class="navbar navbar-expand-lg navbar-dark custom-navbar sticky-top">
+        <div class="container">
+            <a class="navbar-brand logo" href="#">Daily Recipes</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#welcome">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#carousel-section">Top Recipes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#categories">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#faq-section">Culinary FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact-section">Subscribe</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="welcome">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                    <div class="col-lg-6 text-start welcome-text-col">
+                        <h1>Daily Recipe</h1>
+                        <p>Simple, healthy, and delicious homemade recipes for your family. Master the art of cooking with our expert guides.</p>
+                        <a href="#carousel-section" class="explore-btn">Explore Recipes</a>
+                    </div>
+                    <div class="col-lg-6 welcome-video-col">
+                        <video src="assets/cooking.mp4" autoplay loop muted playsinline class="hero-video"></video>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="carousel-section">
+            <h2>Our Top Classics</h2>
+            <div class="carousel" id="carousel-container">
+                <div class="slides">
+                    <div class="slide active">
+                        <img src="assets/steak.jpg" alt="Premium Steak" class="poster">
+                        <div class="caption">
+                            <h2>1. Premium Ribeye Steak</h2>
+                            <p>Juicy, marbled steak seasoned with sea salt and black pepper.</p>
+                        </div>
+                    </div>
+                    <div class="slide">
+                        <img src="assets/pasta.jpg" alt="Classic Carbonara" class="poster">
+                        <div class="caption">
+                            <h2>2. Classic Carbonara</h2>
+                            <p>Traditional Italian pasta with a rich, creamy egg sauce.</p>
+                        </div>
+                    </div>
+                    <div class="slide">
+                        <img src="assets/salad.jpg" alt="Caesar Salad" class="poster">
+                        <div class="caption">
+                            <h2>3. Caesar Salad</h2>
+                            <p>Fresh romaine lettuce tossed in our signature dressing.</p>
+                        </div>
+                    </div>
+                    <div class="slide">
+                        <img src="assets/soup.webp" alt="Mushroom Soup" class="poster">
+                        <div class="caption">
+                            <h2>4. Mushroom Soup</h2>
+                            <p>A velvety blend of wild mushrooms and fresh cream.</p>
+                        </div>
+                    </div>
+                    <div class="slide">
+                        <img src="assets/dessert.jpg" alt="Tiramisu" class="poster">
+                        <div class="caption">
+                            <h2>5. Signature Tiramisu</h2>
+                            <p>Coffee-soaked ladyfingers and mascarpone cream.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="control-btn prev-btn" id="prevBtn">&#10094;</button>
+                <button class="control-btn next-btn" id="nextBtn">&#10095;</button>
+
+                <div class="navigation">
+                    <button class="dot active"></button>
+                    <button class="dot"></button>
+                    <button class="dot"></button>
+                    <button class="dot"></button>
+                    <button class="dot"></button>
+                </div>
+            </div>
+        </section>
+
+        <section id="categories">
+            <h2>Recipe Categories</h2>
+            <div id="vue-app" class="container">
+                <div class="search-bar mb-4" style="max-width: 600px; margin: 0 auto; display: flex; gap: 10px;">
+                    <input type="text" v-model="searchQuery" class="form-control" placeholder="Search recipes...">
+                    <select v-model="selectedCategory" class="form-select">
+                        <option value="All">All Categories</option>
+                        <option value="Meat">Meat</option>
+                        <option value="Carbs">Carbs</option>
+                        <option value="Vegetarian">Vegetarian</option>
+                        <option value="Sweet">Sweet</option>
+                    </select>
+                </div>
+
+                <div class="text-center mb-4" style="color: lightcoral;">
+                    <p v-if="getMatchCount() === 0">No recipes match your criteria.</p>
+                    <p v-else-if="getMatchCount() < recipes.length">{{ getMatchCount() }} recipe(s) match your criteria.</p>
+                    <p v-else>Showing all global recipes.</p>
+                </div>
+
+                <div class="category-grid">
+                    <article 
+                        class="card" 
+                        v-for="recipe in recipes"
+                        :key="recipe.id"
+                        v-show="isMatch(recipe)"
+                        @click="openModal(recipe)"
+                    >
+                        <img :src="recipe.image" :alt="recipe.name" class="card-img-top">
+                        <h3>{{ recipe.name }}</h3>
+                    </article>
+                </div>
+
+                <div class="modal" v-if="selectedRecipe" @click.self="closeModal">
+                    <div class="vue-modal-content">
+                        <span class="close-btn" @click="closeModal">&times;</span>
+                        
+                        <div class="modal-header-custom">
+                            <h2>{{ selectedRecipe.name }}</h2>
+                            <div class="recipe-meta">
+                                <span class="time-tag">⏱ Time: {{ selectedRecipe.time }}</span>
+                                <span class="category-tag">🍴 {{ selectedRecipe.category }}</span>
+                            </div>
+                        </div>
+
+                        <div class="modal-body-custom">
+                            <div class="ingredients-section">
+                                <h4>Ingredients</h4>
+                                <ul class="ingredients-list">
+                                    <li v-for="item in selectedRecipe.ingredients">{{ item }}</li>
+                                </ul>
+                            </div>
+
+                            <div class="steps-section">
+                                <h4>Cooking Steps</h4>
+                                <div class="steps-container">
+                                    <div class="step-item" v-for="(step, index) in selectedRecipe.steps" :key="index">
+                                        <div class="step-number">{{ index + 1 }}</div>
+                                        <div class="step-text">{{ step }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq-section" class="container mt-5 mb-5">
+            <h2>Culinary FAQ</h2>
+            <div class="accordion custom-accordion" id="recipeFaqAccordion">
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            1. How do I choose the right steak cut?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#recipeFaqAccordion">
+                        <div class="accordion-body">
+                            Look for marbling. Ribeye is juicy; Sirloin has more chew; Tenderloin is the leanest.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            2. What is the secret to 'Al Dente' pasta?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#recipeFaqAccordion">
+                        <div class="accordion-body">
+                            Boil in salted water. Drain 1-2 minutes earlier than package instructions and finish in the sauce.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            3. Why use day-old rice for Fried Rice?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#recipeFaqAccordion">
+                        <div class="accordion-body">
+                            Fresh rice is too moist. Day-old rice is drier, allowing grains to separate and fry properly.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                            4. How to keep tofu from breaking in Mapo Tofu?
+                        </button>
+                    </h2>
+                    <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#recipeFaqAccordion">
+                        <div class="accordion-body">
+                            Blanch tofu cubes in hot salted water for 2 minutes before cooking to firm up the structure.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                            5. Secret to extra crispy Sweet & Sour Pork?
+                        </button>
+                    </h2>
+                    <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#recipeFaqAccordion">
+                        <div class="accordion-body">
+                            The double-fry method! Fry once at medium heat to cook, then again at high heat for crunch.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                            6. How to enhance Mushroom Soup umami?
+                        </button>
+                    </h2>
+                    <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#recipeFaqAccordion">
+                        <div class="accordion-body">
+                            Deeply brown the mushrooms in butter before adding liquid to develop complex flavors.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+                            7. Heat control in Kung Pao Chicken?
+                        </button>
+                    </h2>
+                    <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#recipeFaqAccordion">
+                        <div class="accordion-body">
+                            Remove seeds from dried chilies to keep the smoky aroma without excessive spiciness.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
+                            8. Tiramisu without raw eggs?
+                        </button>
+                    </h2>
+                    <div id="faq8" class="accordion-collapse collapse" data-bs-parent="#recipeFaqAccordion">
+                        <div class="accordion-body">
+                            Cook egg yolks with sugar over a double boiler until thickened before mixing with mascarpone.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq9">
+                            9. What is "Guo Qi"?
+                        </button>
+                    </h2>
+                    <div id="faq9" class="accordion-collapse collapse" data-bs-parent="#recipeFaqAccordion">
+                        <div class="accordion-body">
+                            The "Breath of the pan" - achieved by high heat, searing ingredients quickly in a seasoned pan.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq10">
+                            10. How to keep salad crisp?
+                        </button>
+                    </h2>
+                    <div id="faq10" class="accordion-collapse collapse" data-bs-parent="#recipeFaqAccordion">
+                        <div class="accordion-body">
+                            Dry leaves completely after washing and only add dressing right before serving.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="contact-section">
+            <h2>Get More Recipes</h2>
+            <div class="form-container">
+                <form id="subscribeForm" novalidate>
+                    <label for="userName">Name:</label>
+                    <input type="text" id="userName" placeholder="Your full name">
+                    <span class="error" id="nameError"></span>
+
+                    <label for="userEmail">Email:</label>
+                    <input type="email" id="userEmail" placeholder="you@example.com">
+                    <span class="error" id="emailError"></span>
+
+                    <label for="recipePref">Preference:</label>
+                    <select id="recipePref">
+                        <option value="">--Select Preference--</option>
+                        <option value="meat">Meat Lover</option>
+                        <option value="vegetarian">Vegetarian</option>
+                        <option value="sweet">Sweet Tooth</option>
+                    </select>
+                    <span class="error" id="prefError"></span>
+
+                    <button type="submit" id="submitBtn">Subscribe</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Today's Recipe Project.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

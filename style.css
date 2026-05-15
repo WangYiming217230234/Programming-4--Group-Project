@@ -1,0 +1,434 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #333;
+    color: white;
+    line-height: 1.6;
+}
+
+.custom-navbar {
+    background: #1a1a1a;
+    padding: 15px 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    font-family: 'Georgia', serif;
+    font-size: 1.15rem;
+}
+
+.custom-navbar .logo {
+    color: lightcoral;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.custom-navbar .nav-link {
+    color: white;
+    margin-left: 20px;
+    transition: 0.3s;
+}
+
+.custom-navbar .nav-link:hover {
+    color: lightcoral;
+}
+
+#welcome {
+    height: 100vh;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url("assets/how-to-cook.jpg") center/cover no-repeat;
+    position: relative;
+    padding-top: 60px;
+}
+
+.welcome-text-col {
+    padding-right: 40px;
+}
+
+.welcome-text-col h1 {
+    font-size: 65px;
+    color: white;
+    margin-bottom: 20px;
+    font-family: 'Georgia', serif;
+}
+
+.welcome-text-col p {
+    font-size: 20px;
+    color: #cccccc;
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+.explore-btn {
+    display: inline-block;
+    padding: 15px 35px;
+    background-color: lightcoral;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+.explore-btn:hover {
+    background-color: lightsalmon;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(240, 128, 128, 0.4);
+}
+
+.hero-video {
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: transform 0.5s ease;
+}
+
+.hero-video:hover {
+    transform: scale(1.02);
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+section {
+    margin-bottom: 80px;
+}
+
+h2 {
+    margin-bottom: 40px;
+    color: white;
+    text-align: center;
+    font-size: 36px;
+}
+
+.carousel {
+    max-width: 95%;
+    margin: auto;
+    position: relative;
+    user-select: none;
+}
+
+.slides {
+    width: 100%;
+    height: 75vh;
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+}
+
+.slide {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.slide.active {
+    display: block;
+}
+
+.poster {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.caption {
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    background: rgba(0, 0, 0, 0.75);
+    padding: 25px;
+    border-radius: 10px;
+    width: 50%;
+    color: white;
+    pointer-events: none;
+}
+
+.control-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    border: none;
+    font-size: 30px;
+    padding: 15px 20px;
+    cursor: pointer;
+    z-index: 100;
+    transition: background 0.3s;
+    user-select: none;
+}
+
+.control-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.prev-btn {
+    left: 0;
+    border-radius: 0 8px 8px 0;
+}
+
+.next-btn {
+    right: 0;
+    border-radius: 8px 0 0 8px;
+}
+
+.navigation {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.dot {
+    height: 14px;
+    width: 14px;
+    margin: 0 6px;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    background: #999;
+    border: none;
+}
+
+.dot.active {
+    background: lightcoral;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+}
+
+.card {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.4s;
+    border: none;
+}
+
+.card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.card img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.card h3 {
+    color: #333;
+    font-size: 20px;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+}
+
+.vue-modal-content {
+    background: white;
+    padding: 35px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 700px;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    color: #333;
+}
+
+.modal-header-custom {
+    border-bottom: 2px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.recipe-meta {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.time-tag, .category-tag {
+    background: #fff1f1;
+    color: lightcoral;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.ingredients-section {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
+
+.ingredients-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    list-style: none;
+    margin-top: 10px;
+}
+
+.ingredients-list li::before {
+    content: "• ";
+    color: lightcoral;
+    font-weight: bold;
+}
+
+.step-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.step-number {
+    background: lightcoral;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-weight: bold;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 40px;
+    cursor: pointer;
+    color: #999;
+    line-height: 1;
+}
+
+.accordion-item {
+    background: #1a1a1a;
+    border: 1px solid #444;
+    color: white;
+    margin-bottom: 10px;
+    border-radius: 8px !important;
+    overflow: hidden;
+}
+
+.accordion-button {
+    background: #1a1a1a;
+    color: white;
+    font-weight: bold;
+}
+
+.accordion-button:not(.collapsed) {
+    background: #222;
+    color: lightcoral;
+    box-shadow: none;
+}
+
+.accordion-body {
+    background: #222;
+    color: #ddd;
+}
+
+.form-container {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+    color: #333;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    margin-top: 8px;
+    margin-bottom: 2px;
+}
+
+button[type="submit"] {
+    width: 100%;
+    background: lightcoral;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.error {
+    color: #e74c3c;
+    font-size: 13px;
+    font-weight: bold;
+    height: 20px;
+    display: block;
+}
+
+footer {
+    background: #1a1a1a;
+    text-align: center;
+    padding: 40px 0;
+    border-top: 1px solid #444;
+}
+
+@media (max-width: 991px) {
+    #welcome {
+        height: auto;
+        padding: 120px 0 80px 0;
+    }
+    .welcome-text-col {
+        text-align: center !important;
+        padding-right: 15px;
+        margin-bottom: 40px;
+    }
+    .welcome-text-col h1 {
+        font-size: 45px;
+    }
+}
+
+@media (max-width: 768px) {
+    .caption {
+        width: 85%;
+        left: 20px;
+        bottom: 20px;
+        padding: 15px;
+    }
+    .ingredients-list {
+        grid-template-columns: 1fr;
+    }
+}
